@@ -13,19 +13,23 @@ if __name__ == "__main__":
     sms['length'] = sms['message'].apply(len)
     sms['count_caps'] = sms['message'].apply(lambda msg: len(filter(lambda c: c in string.uppercase, msg)))
     sms['ratio_caps'] = sms['message'].apply(lambda msg: len(filter(lambda c: c in string.uppercase, msg)) / float(len(msg)))
-    sms['count_num'] = sms['message'].apply(lambda msg: len(filter(lambda c: c in string.digits, msg)))
-    sms['ratio_num'] = sms['message'].apply(lambda msg: len(filter(lambda c: c in string.digits, msg)) / float(len(msg)))
+    sms['count_digits'] = sms['message'].apply(lambda msg: len(filter(lambda c: c in string.digits, msg)))
+    sms['ratio_digits'] = sms['message'].apply(lambda msg: len(filter(lambda c: c in string.digits, msg)) / float(len(msg)))
+    sms['count_excl'] = sms['message'].apply(lambda msg: len(filter(lambda c: c == '!', msg)))
     
-    print sms.head()
-    print '\nham'
-    print sms[sms['label'] == 'ham'].describe()
-    print '\nspam'
-    print sms[sms['label'] == 'spam'].describe()
+    #print sms.head()
+    #print '\nham'
+    #print sms[sms['label'] == 'ham'].describe()
+    #print '\nspam'
+    #print sms[sms['label'] == 'spam'].describe()
 
     sms['message'] = sms['message'].str.lower()
-    sms['message'] = sms['message'].str.replace(r"www.\S+"," someurl ")
-    sms['message'] = sms['message'].str.replace("\d{4,}"," suspectnumber ")
+    sms['message'] = sms['message'].str.replace(r'www.\S+',' someurl ')
+    sms['message'] = sms['message'].str.replace(r'\d{4,}',' suspectnumber ')
+    sms['message'] = sms['message'].str.replace(r'[^\w\s\d]','')
+
+    #print sms.head(20)
 
     vectorizer = CountVectorizer(ngram_range=(1,3), decode_error='ignore', stop_words="english")
-
+    
     
