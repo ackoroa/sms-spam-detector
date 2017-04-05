@@ -3,6 +3,7 @@ import pandas as pd
 from scipy import sparse
 import string
 
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_recall_fscore_support
@@ -92,6 +93,7 @@ def print_precision_recall_fscore(scores, classifiers):
 if __name__ == "__main__":
     sms = get_preprocessed_data('spam.csv')
 
+    #vectorizer = CountVectorizer(ngram_range=(1,1), decode_error='ignore', stop_words='english')
     vectorizer = TfidfVectorizer(ngram_range=(1,1), decode_error='ignore', stop_words='english')
     features_tfidf = vectorizer.fit_transform(sms['message'])
     features_others = sms.as_matrix(columns=['length','count_caps','ratio_caps','count_digits','ratio_digits','count_excl'])
