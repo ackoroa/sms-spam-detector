@@ -93,7 +93,7 @@ def print_precision_recall_fscore(scores, classifiers):
 if __name__ == "__main__":
     sms = get_preprocessed_data('spam.csv')
 
-    #vectorizer = CountVectorizer(ngram_range=(1,1), decode_error='ignore', stop_words='english')
+#    vectorizer = CountVectorizer(ngram_range=(1,1), decode_error='ignore', stop_words='english')
     vectorizer = TfidfVectorizer(ngram_range=(1,1), decode_error='ignore', stop_words='english')
     features_tfidf = vectorizer.fit_transform(sms['message'])
     features_others = sms.as_matrix(columns=['length','count_caps','ratio_caps','count_digits','ratio_digits','count_excl'])
@@ -101,13 +101,13 @@ if __name__ == "__main__":
 
     classifiers = get_classifiers()
 
-    print 'training with tfidf features'
-    scores = train_and_score(features_tfidf, sms['label'], classifiers)
-    print_precision_recall_fscore(scores, classifiers)
+#    print 'training with tfidf features'
+#    scores = train_and_score(features_tfidf, sms['label'], classifiers)
+#    print_precision_recall_fscore(scores, classifiers)
 
-    print 'training with other features'
-    scores = train_and_score(features_others, sms['label'], classifiers)
-    print_precision_recall_fscore(scores, classifiers)
+#    print 'training with other features'
+#    scores = train_and_score(features_others, sms['label'], classifiers)
+#    print_precision_recall_fscore(scores, classifiers)
 
     print 'training with combined features'
     scores = train_and_score(features, sms['label'], classifiers)
